@@ -1,4 +1,4 @@
 plugins:
-  plugin_name_enabled:
+  discourse_table_gallery_enabled:
     default: true
     client: true
