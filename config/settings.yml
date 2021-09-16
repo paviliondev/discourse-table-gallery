@@ -2,3 +2,7 @@ plugins:
   discourse_table_gallery_enabled:
     default: true
     client: true
+  table_gallery_categories:
+    default: ""
+    type: list
+    client: true

@@ -4,8 +4,12 @@ export default apiInitializer("0.11.1", (api) => {
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
       renderTemplate(controller, model) {
-        const isGalleryCategory =
-          model && model.category && model.category.slug == "gallery"; // TODO: replace with setting
+        const siteSettings = model.category.siteSettings;
+        const categorySlug = model.category.slug;
+        const galleryCategories =
+          siteSettings.table_gallery_categories.split("|");
+        const isGalleryCategory = galleryCategories.includes(categorySlug);
+
         const user = this.currentUser; // we'll want to check if they're an admin
 
         if (!isGalleryCategory) {
