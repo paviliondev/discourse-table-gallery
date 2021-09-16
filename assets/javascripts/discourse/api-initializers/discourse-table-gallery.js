@@ -12,10 +12,12 @@ export default apiInitializer("0.11.1", (api) => {
 
         const user = this.currentUser; // we'll want to check if they're an admin
 
-        if (!isGalleryCategory) {
+        if (isGalleryCategory) {
+          // render new nav system
           this.render("navigation/category", { outlet: "navigation-bar" });
         } else {
-          // TODO: replace with new nav system
+          // normal behaviour
+          this.render("navigation/category", { outlet: "navigation-bar" });
         }
 
         if (this._categoryList) {
