@@ -5,4 +5,5 @@ plugins:
   table_gallery_categories:
     default: ""
     type: list
+    list_type: category
     client: true

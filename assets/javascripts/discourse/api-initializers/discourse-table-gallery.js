@@ -1,22 +1,30 @@
 import { apiInitializer } from "discourse/lib/api";
+import discourseComputed from "discourse-common/utils/decorators";
 
 export default apiInitializer("0.11.1", (api) => {
+  const siteSettings = api.container.lookup("site-settings:main");
+  const tableGalleryNavigationController = api.container.lookup(
+    "controller:gallery/table-gallery-navigation"
+  );
+  const galleryCategoryIds = siteSettings.table_gallery_categories
+    .split("|")
+    .map((id) => parseInt(id, 10));
+
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
       renderTemplate(controller, model) {
-        const siteSettings = model.category.siteSettings;
-        const categorySlug = model.category.slug;
-        const galleryCategories =
-          siteSettings.table_gallery_categories.split("|");
-        const isGalleryCategory = galleryCategories.includes(categorySlug);
-
-        const user = this.currentUser; // we'll want to check if they're an admin
+        const categoryId = model.category.id;
+        const isGalleryCategory = galleryCategoryIds.includes(categoryId);
 
         if (isGalleryCategory) {
           // render new nav system
-          this.render("navigation/category", { outlet: "navigation-bar" });
+          console.log("rendering table gallery");
+          this.render("gallery/table-gallery-navigation", {
+            outlet: "navigation-bar",
+          });
         } else {
           // normal behaviour
+          console.log("rendering normal behaviour");
           this.render("navigation/category", { outlet: "navigation-bar" });
         }
 
@@ -32,5 +40,26 @@ export default apiInitializer("0.11.1", (api) => {
         });
       },
     });
+  });
+
+  api.modifyClass("service:topic-thumbnails", {
+    @discourseComputed(
+      "viewingCategoryId",
+      "viewingTagId",
+      "router.currentRoute.metadata.customThumbnailMode",
+      "isTopicListRoute"
+    )
+    displayMode(
+      viewingCategoryId,
+      viewingTagId,
+      customThumbnailMode,
+      isTopicListRoute
+    ) {
+      if (galleryCategoryIds.includes(viewingCategoryId)) {
+        return tableGalleryNavigationController.get("listViewState");
+      } else {
+        return this._super(...arguments);
+      }
+    },
   });
 });
