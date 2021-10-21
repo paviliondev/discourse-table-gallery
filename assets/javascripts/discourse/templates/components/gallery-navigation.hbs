@@ -1,7 +1,11 @@
-{{!-- switching between tile and list, not enterprise and community --}}
-<div class="view-toggle">
-    {{d-button action="enableGalleryView" icon="th"}}
-    {{d-button action="enableListView" icon="list"}}
-</div>
+<div>
+    {{!-- switching between tile and list, not enterprise and community --}}
+    <div class="view-toggle">
+        {{d-button action="enableGridView" icon="th"}}
+        {{d-button action="enableListView" icon="list"}}
+    </div>
 
-{{input type="text" name="gallery-filter" value=filterInput tabindex="3" onChange=(action "filterGallery")}}
+    <div style="text-align: right;">
+        {{input type="text" name="gallery-filter" value=filterInput tabindex="3" onChange=(action "filterGallery")}}
+    </div>
+</div>

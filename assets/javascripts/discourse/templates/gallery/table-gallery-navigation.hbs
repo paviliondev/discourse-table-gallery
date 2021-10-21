@@ -2,7 +2,11 @@
     galleryState=galleryState}}
 
 {{gallery-navigation
-listViewState=listViewState}}
+updateListView=(action "updateListView")
+updateFilter=(action "updateFilter")
+listViewState=listViewState
+filterInput=filterInput}}
+
 
 {{#if currentUser.staff}}
     {{d-navigation
