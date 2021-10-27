@@ -1,12 +1,9 @@
 import { apiInitializer } from "discourse/lib/api";
-import discourseComputed from "discourse-common/utils/decorators";
+import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
-  const tableGalleryNavigationController = api.container.lookup(
-    "controller:gallery/table-gallery-navigation"
-  );
   const galleryCategoryIds = siteSettings.table_gallery_categories
     .split("|")
     .map((id) => parseInt(id, 10));
@@ -50,14 +47,12 @@ export default apiInitializer("0.11.1", (api) => {
 
         if (isGalleryCategory) {
           // render new nav system
-          console.log("rendering table gallery");
           this.render("gallery/table-gallery-navigation", {
             controller: "gallery/table-gallery-navigation",
             outlet: "navigation-bar",
           });
         } else {
           // normal behaviour
-          console.log("rendering normal behaviour");
           this.render("navigation/category", { outlet: "navigation-bar" });
         }
 
@@ -75,24 +70,47 @@ export default apiInitializer("0.11.1", (api) => {
     });
   });
 
+  api.modifyClass("component:topic-list-item", {
+    @observes("topicThumbnailsService.shouldDisplay")
+    rerenderTopicListItem() {
+      // note that this is rerender, not render - we don't want conflict with thumbnails version
+      // (which is already overriding Discourse)
+      this.renderTopicListItem(); // this is from thumbnail theme
+    },
+  });
+
   api.modifyClass("service:topic-thumbnails", {
+    init() {
+      // this runs when service is initialized, we're using it to make controller computed properties available to service
+      this._super(...arguments);
+      const tableGalleryNavigationController = api.container.lookup(
+        "controller:gallery/table-gallery-navigation"
+      );
+      // making controller (and by extension listViewState) available to displayMode as computed property
+      this.set(
+        "tableGalleryNavigationController",
+        tableGalleryNavigationController
+      );
+    },
+
     @discourseComputed(
       "viewingCategoryId",
       "viewingTagId",
       "router.currentRoute.metadata.customThumbnailMode",
-      "isTopicListRoute"
+      "isTopicListRoute",
+      "tableGalleryNavigationController.listViewState"
     )
     displayMode(
       viewingCategoryId,
       viewingTagId,
       customThumbnailMode,
-      isTopicListRoute
+      isTopicListRoute,
+      listViewState
     ) {
       if (galleryCategoryIds.includes(viewingCategoryId)) {
         // this lets us tell topic-thumbnails to show a list or a grid,
         // based on the property from our controller instead of its own settings
-        // NOTE: this appears to update once, needs to update on controller change
-        return tableGalleryNavigationController.get("listViewState");
+        return listViewState;
       } else {
         return this._super(...arguments);
       }
