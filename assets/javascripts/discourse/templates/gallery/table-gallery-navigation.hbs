@@ -1,13 +1,15 @@
 {{gallery-state-toggle
     galleryState=galleryState}}
 
+<div>
 {{gallery-navigation
 updateListView=(action "updateListView")
 updateFilter=(action "updateFilter")
 listViewState=listViewState
 filterInput=filterInput}}
+</div>
 
-
+<div style="clear: both">
 {{#if currentUser.staff}}
     {{d-navigation
         category=category
@@ -20,3 +22,4 @@ filterInput=filterInput}}
         editCategory=(route-action "editCategory" category)
     }}
 {{/if}}
+</div>
