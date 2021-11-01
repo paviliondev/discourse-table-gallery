@@ -1,9 +1,12 @@
 import { apiInitializer } from "discourse/lib/api";
 import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
+import { scheduleOnce } from "@ember/runloop";
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
+  if (!siteSettings.discourse_table_gallery_enabled) return;
+
   const galleryCategoryIds = siteSettings.table_gallery_categories
     .split("|")
     .map((id) => parseInt(id, 10));
@@ -53,9 +56,12 @@ export default apiInitializer("0.11.1", (api) => {
             controller: "gallery/table-gallery-navigation",
             outlet: "navigation-bar",
           });
+          
+          scheduleOnce("afterRender", () => ($("body").addClass("table-gallery")));
         } else {
           // normal behaviour
           this.render("navigation/category", { outlet: "navigation-bar" });
+          scheduleOnce("afterRender", () => ($("body").removeClass("table-gallery")));
         }
 
         if (this._categoryList) {
@@ -69,6 +75,10 @@ export default apiInitializer("0.11.1", (api) => {
           outlet: "list-container",
         });
       },
+
+      deactivate() {
+        $("body").removeClass("table-gallery");
+      }
     });
   });
 
