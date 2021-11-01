@@ -5,3 +5,13 @@
 .align-right {
   float: right;
 }
+
+body.table-gallery #navigation-bar,
+body.table-gallery .navigation-controls {
+  display: inline-flex;
+}
+
+body.table-gallery .navigation-controls {
+  float: right;
+}
+
