@@ -10,6 +10,8 @@ export default apiInitializer("0.11.1", (api) => {
 
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
+      pluginId: "discourse-table-gallery",
+
       _setupNavigation(category) {
         this._super(...arguments);
         const noSubcategories = false,
@@ -71,6 +73,13 @@ export default apiInitializer("0.11.1", (api) => {
   });
 
   api.modifyClass("component:topic-list-item", {
+    pluginId: "discourse-table-gallery",
+
+    didInsertElement() {
+      this._super();
+      this.topicThumbnailsService.shouldDisplay;
+    },
+
     @observes("topicThumbnailsService.shouldDisplay")
     rerenderTopicListItem() {
       // note that this is rerender, not render - we don't want conflict with thumbnails version
@@ -80,6 +89,8 @@ export default apiInitializer("0.11.1", (api) => {
   });
 
   api.modifyClass("service:topic-thumbnails", {
+    pluginId: "discourse-table-gallery",
+
     init() {
       // this runs when service is initialized, we're using it to make controller computed properties available to service
       this._super(...arguments);
