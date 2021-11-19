@@ -1,0 +1,9 @@
+en:
+  js:
+    table_gallery:
+      community:
+        label: Community
+        title: View all tables
+      enterprise:
+        label: Enterprise
+        title: View enterprise tables

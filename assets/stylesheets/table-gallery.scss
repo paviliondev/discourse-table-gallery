@@ -15,6 +15,14 @@ body.table-gallery .navigation-controls {
   float: right;
 }
 
+.gallery-state-toggle {
+  &.community .community-toggle,
+  &.enterprise .enterprise-toggle {
+    color: var(--secondary);
+    background-color: var(--tertiary);
+  }
+}
+
 body.table-gallery .topic-statuses {
   display: none;
 }

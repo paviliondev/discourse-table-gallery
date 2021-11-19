@@ -2,6 +2,8 @@ import { apiInitializer } from "discourse/lib/api";
 import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
+import { inject as controller } from "@ember/controller";
+import { alias } from "@ember/object/computed"; // TODO check
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
@@ -10,6 +12,8 @@ export default apiInitializer("0.11.1", (api) => {
   const galleryCategoryIds = siteSettings.table_gallery_categories
     .split("|")
     .map((id) => parseInt(id, 10));
+
+  api.addDiscoveryQueryParam("tags", { refreshModel: true, replace: true });
 
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
@@ -56,12 +60,16 @@ export default apiInitializer("0.11.1", (api) => {
             controller: "gallery/table-gallery-navigation",
             outlet: "navigation-bar",
           });
-          
-          scheduleOnce("afterRender", () => ($("body").addClass("table-gallery")));
+
+          scheduleOnce("afterRender", () =>
+            $("body").addClass("table-gallery")
+          );
         } else {
           // normal behaviour
           this.render("navigation/category", { outlet: "navigation-bar" });
-          scheduleOnce("afterRender", () => ($("body").removeClass("table-gallery")));
+          scheduleOnce("afterRender", () =>
+            $("body").removeClass("table-gallery")
+          );
         }
 
         if (this._categoryList) {
@@ -78,7 +86,14 @@ export default apiInitializer("0.11.1", (api) => {
 
       deactivate() {
         $("body").removeClass("table-gallery");
-      }
+      },
+    });
+
+    api.modifyClass(`controller:${name}`, {
+      tableGalleryNavigationController: controller(
+        "gallery/table-gallery-navigation"
+      ), // injecting our controller into this controller, specifying the controller so it doesn't try to guess from prop name
+      tags: alias("tableGalleryNavigationController.galleryState"), // so tag on discovery controller is alias of galleryState (alias is ember shortcut)
     });
   });
 

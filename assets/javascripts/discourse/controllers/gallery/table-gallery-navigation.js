@@ -9,7 +9,6 @@ export default NavigationCategoryController.extend({
   actions: {
     updateListView(listView) {
       this.set("listViewState", listView);
-      // this is changing, but needs to actually make the update?
     },
     updateFilter(filterInput) {
       this.transitionToRoute({ queryParams: { search: filterInput } });
