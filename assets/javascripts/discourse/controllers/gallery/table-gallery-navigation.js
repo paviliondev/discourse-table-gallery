@@ -2,6 +2,7 @@ import NavigationCategoryController from "discourse/controllers/navigation/categ
 
 // this controller manages the table-gallery-navigation template, we're initialising the variables used there
 export default NavigationCategoryController.extend({
+  // queryParams: [{ galleryState: "tags" }],
   galleryState: "community",
   listViewState: "grid",
   filterInput: "",
@@ -13,5 +14,8 @@ export default NavigationCategoryController.extend({
     updateFilter(filterInput) {
       this.transitionToRoute({ queryParams: { search: filterInput } });
     },
+    // updateGalleryState(state) {
+    //   this.transitionToRoute({ queryParams: { tags: state } });
+    // },
   },
 });

@@ -93,7 +93,16 @@ export default apiInitializer("0.11.1", (api) => {
       tableGalleryNavigationController: controller(
         "gallery/table-gallery-navigation"
       ), // injecting our controller into this controller, specifying the controller so it doesn't try to guess from prop name
-      tags: alias("tableGalleryNavigationController.galleryState"), // so tag on discovery controller is alias of galleryState (alias is ember shortcut)
+
+      @discourseComputed("tableGalleryNavigationController.galleryState")
+      tags(galleryState) {
+        console.log(galleryState); // prints on page load
+        if (["enterprise"].includes(galleryState)) {
+          return galleryState;
+        } else {
+          return null;
+        }
+      },
     });
   });
 

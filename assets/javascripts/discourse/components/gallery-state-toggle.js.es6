@@ -11,6 +11,7 @@ export default Component.extend({
   actions: {
     toggle(state) {
       this.set("galleryState", state);
+      // this.transitionToRoute({ queryParams: { tags: state } }); // transitionToRoute is available on controller only
     },
   },
 });
