@@ -3,7 +3,6 @@ import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
 import { inject as controller } from "@ember/controller";
-import { alias } from "@ember/object/computed"; // TODO check
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
@@ -86,22 +85,6 @@ export default apiInitializer("0.11.1", (api) => {
 
       deactivate() {
         $("body").removeClass("table-gallery");
-      },
-    });
-
-    api.modifyClass(`controller:${name}`, {
-      tableGalleryNavigationController: controller(
-        "gallery/table-gallery-navigation"
-      ), // injecting our controller into this controller, specifying the controller so it doesn't try to guess from prop name
-
-      @discourseComputed("tableGalleryNavigationController.galleryState")
-      tags(galleryState) {
-        console.log(galleryState); // prints on page load
-        if (["enterprise"].includes(galleryState)) {
-          return galleryState;
-        } else {
-          return null;
-        }
       },
     });
   });
