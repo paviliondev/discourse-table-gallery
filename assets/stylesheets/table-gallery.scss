@@ -39,8 +39,9 @@ body.table-gallery .topic-thumbnails-grid {
   }
 }
 
-body.table-gallery .main-link {
+body.table-gallery .topic-thumbnails-grid .main-link {
   overflow: hidden;
+  height: 60px;
   .link-top-line {
     white-space: nowrap;
     overflow: hidden;
