@@ -26,3 +26,11 @@ body.table-gallery .navigation-controls {
 body.table-gallery .topic-statuses {
   display: none;
 }
+
+body.table-gallery .topic-thumbnails-grid {
+  tbody {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+  }
+}
