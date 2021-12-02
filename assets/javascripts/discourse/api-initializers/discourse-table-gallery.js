@@ -3,6 +3,7 @@ import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
 import { inject as controller } from "@ember/controller";
+import { queryParams } from "discourse/controllers/discovery-sortable";
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
@@ -12,11 +13,15 @@ export default apiInitializer("0.11.1", (api) => {
     .split("|")
     .map((id) => parseInt(id, 10));
 
-  api.addDiscoveryQueryParam("tags", { refreshModel: true, replace: true });
+  const rParams = queryParams;
+  const cParams = Object.keys(queryParams);
+  rParams['tags'] = { refreshModel: true, replace: true };
+  cParams.push('tags');
 
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
       pluginId: "discourse-table-gallery",
+      queryParams: rParams,
 
       _setupNavigation(category) {
         this._super(...arguments);
@@ -87,6 +92,8 @@ export default apiInitializer("0.11.1", (api) => {
         $("body").removeClass("table-gallery");
       },
     });
+
+    api.modifyClass(`controller:${name}`, { queryParams: cParams });
   });
 
   api.modifyClass("component:topic-list-item", {
