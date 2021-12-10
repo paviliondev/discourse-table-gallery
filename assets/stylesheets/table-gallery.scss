@@ -37,11 +37,22 @@ body.table-gallery .topic-thumbnails-grid {
     grid-column-gap: 20px;
     grid-row-gap: 20px;
   }
+  tr {
+    height: 330px;
+    border: 2px solid var(--primary-low);
+  }
+}
+
+body.table-gallery .topic-list td {
+  background-color: var(--header_background);
 }
 
 body.table-gallery .topic-thumbnails-grid .main-link {
+  color: var(--hljs-literal);
   overflow: hidden;
-  height: 60px;
+  height: 100px;
+  font-size: var(--font-up-2);
+  font-weight: 600;
   .link-top-line {
     white-space: nowrap;
     overflow: hidden;
