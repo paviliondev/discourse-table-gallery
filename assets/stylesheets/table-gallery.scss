@@ -69,7 +69,11 @@ body.table-gallery .topic-thumbnails-grid a.title {
 }
 
 body.table-gallery .topic-thumbnails-grid .discourse-tag {
-  margin-top: 10px;
+  background-color: #f8f9fb;
+  padding: 3px;
+  border: 1px solid var(--primary-low);
+
+  margin-top: 5px;
   color: #6c82b2;
   font-family: "Open Sans", sans-serif;
   font-size: 13.5px;
