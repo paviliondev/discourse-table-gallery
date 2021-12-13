@@ -1,10 +1,9 @@
 import { apiInitializer } from "discourse/lib/api";
-import discourseComputed, { observes, on } from "discourse-common/utils/decorators";
+import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
 import { inject as controller } from "@ember/controller";
 import { queryParams } from "discourse/controllers/discovery-sortable";
-import { createPopper } from "@popperjs/core";
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
@@ -103,38 +102,6 @@ export default apiInitializer("0.11.1", (api) => {
     didInsertElement() {
       this._super();
       this.topicThumbnailsService.shouldDisplay;
-    },
-
-    @on('didInsertElement')
-    @observes("topicThumbnailsService.shouldDisplay")
-    setupPopper() {
-      if (this.topicThumbnailsService.shouldDisplay) {
-        scheduleOnce('afterRender', () => {
-          const container = this.element.querySelector(".link-top-line");
-          const element = this.element.querySelector(".topic-list-title-popover");
-
-          this._popper = createPopper(
-            container,
-            element,
-            {
-              placement: "auto",
-              modifiers: [
-                {
-                  name: "preventOverflow",
-                },
-                {
-                  name: "offset",
-                  options: {
-                    offset: [5, 5],
-                  },
-                },
-              ],
-            }
-          );
-        });
-      } else {
-        this._popper = null;
-      }
     },
 
     @observes("topicThumbnailsService.shouldDisplay")
