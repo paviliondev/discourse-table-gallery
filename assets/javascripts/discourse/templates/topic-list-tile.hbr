@@ -26,5 +26,7 @@
         </div>
       {{/if}}
     </a>
+
   </div>
+<div class="topic-list-title-popover">{{view.topic.title}}</div>
 {{/if}}
