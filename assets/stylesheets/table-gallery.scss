@@ -4,6 +4,12 @@
 
 .align-right {
   float: right;
+  display: inline-flex;
+  margin-bottom: 0.5em;
+}
+
+input[name="gallery-filter"] {
+  margin-bottom: 0em;
 }
 
 body.table-gallery #navigation-bar,
