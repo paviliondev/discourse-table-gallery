@@ -6,6 +6,16 @@
   float: right;
   display: inline-flex;
   margin-bottom: 0.5em;
+  margin-left: 0.5em;
+}
+
+.gallery-navigation {
+  width: 100%;
+}
+
+.default-navigation {
+  width: 100%;
+  clear: both;
 }
 
 input[name="gallery-filter"] {
@@ -22,6 +32,7 @@ body.table-gallery .navigation-controls {
 }
 
 .gallery-state-toggle {
+  margin-bottom: 0.5em;
   &.community .community-toggle,
   &.enterprise .enterprise-toggle {
     color: var(--secondary);

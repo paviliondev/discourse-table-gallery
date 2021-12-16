@@ -1,8 +1,8 @@
-{{gallery-state-toggle setGalleryState=(action "setGalleryState") galleryState=galleryState}}
-
-<br/>
-
 <div>
+{{gallery-state-toggle setGalleryState=(action "setGalleryState") galleryState=galleryState}}
+</div>
+
+<div class="gallery-navigation">
 {{gallery-navigation
 updateListView=(action "updateListView")
 updateFilter=(action "updateFilter")
@@ -10,7 +10,7 @@ listViewState=listViewState
 filterInput=filterInput}}
 </div>
 
-<div style="clear: both">
+<div class="default-navigation">
 {{#if currentUser.staff}}
     {{d-navigation
         category=category
