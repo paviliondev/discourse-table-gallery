@@ -1,5 +1,8 @@
 import { apiInitializer } from "discourse/lib/api";
-import discourseComputed, { observes, on } from "discourse-common/utils/decorators";
+import discourseComputed, {
+  observes,
+  on,
+} from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
 import { inject as controller } from "@ember/controller";
@@ -16,8 +19,17 @@ export default apiInitializer("0.11.1", (api) => {
 
   const rParams = queryParams;
   const cParams = Object.keys(queryParams);
-  rParams['tags'] = { refreshModel: true, replace: true };
-  cParams.push('tags');
+  rParams["tags"] = { refreshModel: true, replace: true };
+  cParams.push("tags");
+
+  const tags_callback = function (topic, params) {
+    if (topic.get("tags").length > 3) {
+      const numExcessTags = topic.get("tags").length - 3;
+      return "<span class='discourse-tag'>(+" + numExcessTags + ")</span>";
+    }
+  };
+
+  api.addTagsHtmlCallback(tags_callback, { priority: 100 });
 
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
@@ -105,32 +117,30 @@ export default apiInitializer("0.11.1", (api) => {
       this.topicThumbnailsService.shouldDisplay;
     },
 
-    @on('didInsertElement')
+    @on("didInsertElement")
     @observes("topicThumbnailsService.shouldDisplay")
     setupPopper() {
       if (this.topicThumbnailsService.shouldDisplay) {
-        scheduleOnce('afterRender', () => {
+        scheduleOnce("afterRender", () => {
           const container = this.element.querySelector(".link-top-line");
-          const element = this.element.querySelector(".topic-list-title-popover");
-
-          this._popper = createPopper(
-            container,
-            element,
-            {
-              placement: "auto",
-              modifiers: [
-                {
-                  name: "preventOverflow",
-                },
-                {
-                  name: "offset",
-                  options: {
-                    offset: [5, 5],
-                  },
-                },
-              ],
-            }
+          const element = this.element.querySelector(
+            ".topic-list-title-popover"
           );
+
+          this._popper = createPopper(container, element, {
+            placement: "auto",
+            modifiers: [
+              {
+                name: "preventOverflow",
+              },
+              {
+                name: "offset",
+                options: {
+                  offset: [5, 5],
+                },
+              },
+            ],
+          });
         });
       } else {
         this._popper = null;
