@@ -23,9 +23,16 @@ export default apiInitializer("0.11.1", (api) => {
   cParams.push("tags");
 
   const tags_callback = function (topic, params) {
-    if (topic.get("tags").length > 3) {
+    if (
+      galleryCategoryIds.includes(topic.get("category_id")) &&
+      topic.get("tags").length > 3
+    ) {
       const numExcessTags = topic.get("tags").length - 3;
-      return "<span class='discourse-tag'>(+" + numExcessTags + ")</span>";
+      return (
+        "<span class='discourse-tag excess-tags'>(+" +
+        numExcessTags +
+        ")</span>"
+      );
     }
   };
 
@@ -127,7 +134,7 @@ export default apiInitializer("0.11.1", (api) => {
             ".topic-list-title-popover"
           );
 
-          this._popper = createPopper(container, element, {
+          createPopper(container, element, {
             placement: "auto",
             modifiers: [
               {
@@ -142,8 +149,6 @@ export default apiInitializer("0.11.1", (api) => {
             ],
           });
         });
-      } else {
-        this._popper = null;
       }
     },
 
