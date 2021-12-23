@@ -40,11 +40,15 @@ body.table-gallery .navigation-controls {
   margin-bottom: 0.5em;
   &.community .community-toggle,
   &.enterprise .enterprise-toggle {
+    font-family: "Source Sans pro", sans-serif;
+    font-size: 17px;
     color: var(--secondary);
     background-color: #fdbe4b;
   }
   &.enterprise .community-toggle,
   &.community .enterprise-toggle {
+    font-family: "Source Sans pro", sans-serif;
+    font-size: 17px;
     color: var(--secondary);
     background-color: #888888;
     &:hover {
@@ -53,15 +57,13 @@ body.table-gallery .navigation-controls {
   }
 }
 
-body.table-gallery .topic-thumbnails-grid .topic-statuses {
-  display: none;
-}
-
-body.table-gallery .topic-thumbnails-grid .post-activity {
-  display: none;
-}
-
 body.table-gallery .topic-thumbnails-grid {
+  .topic-statuses {
+    display: none;
+  }
+  .post-activity {
+    display: none;
+  }
   tbody {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-column-gap: 20px;
@@ -71,7 +73,6 @@ body.table-gallery .topic-thumbnails-grid {
     height: 350px;
     border: 0.5px solid var(--primary-low);
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.15);
-    /* display: block; */
     background-color: #fff;
     margin-bottom: 30 px;
   }
@@ -120,9 +121,10 @@ body.table-gallery .discourse-tag {
   }
 }
 
-// hide excess-tags counter on non table gallery pages
+// hide excess-tags counter when viewing on non table gallery pages
 
 body:not(.table-gallery) {
   &.excess-tags {
     display: none;
+  }
 }
