@@ -88,6 +88,21 @@ body.table-gallery .topic-list td {
 body.table-gallery .topic-thumbnails-grid .main-link {
   overflow: hidden;
   height: 90px;
+  position: relative;
+
+  .topic-list-title-popover {
+    display: none;
+  }
+
+  &:hover .topic-list-title-popover {
+    display: block;
+    position: absolute;
+    top: -20px;
+    padding: 5px;
+    background-color: var(--secondary);
+    box-shadow: shadow("dropdown");
+  }
+
   .link-top-line {
     white-space: nowrap;
     overflow: hidden;
