@@ -130,7 +130,12 @@ body.table-gallery .topic-thumbnails-grid a.title {
   line-height: 1.3;
 }
 
-body.table-gallery .discourse-tag {
+body.table-gallery .discourse-tag,
+body.table-gallery
+  .topic-list
+  .link-bottom-line
+  .discourse-tags
+  a.discourse-tag.box {
   margin-top: 5px;
   font-size: 14px;
   font-weight: 400;
