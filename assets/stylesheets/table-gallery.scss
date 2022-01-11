@@ -150,10 +150,13 @@ body.table-gallery
   }
 }
 
-// hide excess-tags counter when viewing on non table gallery pages
-
+// hide added html when viewing on non table gallery pages
 body:not(.table-gallery) {
-  &.excess-tags {
+  span.excess-tags {
+    display: none;
+  }
+
+  div.topic-list-title-popover {
     display: none;
   }
 }
