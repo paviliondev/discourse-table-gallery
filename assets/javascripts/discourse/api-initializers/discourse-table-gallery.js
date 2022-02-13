@@ -120,7 +120,9 @@ export default apiInitializer("0.11.1", (api) => {
 
     didInsertElement() {
       this._super();
-      this.topicThumbnailsService.shouldDisplay;
+      if (this.topicThumbnailsService) {
+        this.topicThumbnailsService.shouldDisplay;
+      }
     },
 
     @observes("topicThumbnailsService.shouldDisplay")
