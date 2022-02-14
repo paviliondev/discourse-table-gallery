@@ -1,26 +1,26 @@
 <div>
-{{gallery-state-toggle setGalleryState=(action "setGalleryState") galleryState=galleryState}}
+  {{gallery-state-toggle setGalleryState=(action "setGalleryState") galleryState=galleryState}}
 </div>
 
 <div class="gallery-navigation">
-{{gallery-navigation
-updateListView=(action "updateListView")
-updateFilter=(action "updateFilter")
-listViewState=listViewState
-filterInput=filterInput}}
+  {{gallery-navigation
+  updateListView=(action "updateListView")
+  updateFilter=(action "updateFilter")
+  listViewState=listViewState
+  filterInput=filterInput}}
 </div>
 
 <div class="default-navigation">
-{{#if currentUser.staff}}
+  {{#if currentUser.staff}}
     {{d-navigation
-        category=category
-        filterMode=filterMode
-        noSubcategories=noSubcategories
-        canCreateTopic=canCreateTopic
-        createTopic=(route-action "createTopic")
-        createTopicDisabled=cannotCreateTopicOnCategory
-        hasDraft=currentUser.has_topic_draft
-        editCategory=(route-action "editCategory" category)
+      category=category
+      filterMode=filterMode
+      noSubcategories=noSubcategories
+      canCreateTopic=canCreateTopic
+      createTopic=(route-action "createTopic")
+      createTopicDisabled=cannotCreateTopicOnCategory
+      hasDraft=currentUser.has_topic_draft
+      editCategory=(route-action "editCategory" category)
     }}
-{{/if}}
+  {{/if}}
 </div>

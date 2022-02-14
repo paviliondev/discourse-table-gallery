@@ -1,16 +1,14 @@
 import { apiInitializer } from "discourse/lib/api";
-import discourseComputed, {
-  observes,
-  on,
-} from "discourse-common/utils/decorators";
+import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
-import { inject as controller } from "@ember/controller";
 import { queryParams } from "discourse/controllers/discovery-sortable";
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
-  if (!siteSettings.discourse_table_gallery_enabled) return;
+  if (!siteSettings.discourse_table_gallery_enabled) {
+    return;
+  }
 
   const galleryCategoryIds = siteSettings.table_gallery_categories
     .split("|")
@@ -21,6 +19,7 @@ export default apiInitializer("0.11.1", (api) => {
   rParams["tags"] = { refreshModel: true, replace: true };
   cParams.push("tags");
 
+  // eslint-disable-next-line no-unused-vars
   const tags_callback = function (topic, params) {
     if (
       galleryCategoryIds.includes(topic.get("category_id")) &&
@@ -63,9 +62,9 @@ export default apiInitializer("0.11.1", (api) => {
             category.get("permission") === PermissionType.FULL;
 
         this.controllerFor("gallery/table-gallery-navigation").setProperties({
-          canCreateTopicOnCategory: canCreateTopicOnCategory,
+          canCreateTopicOnCategory,
           cannotCreateTopicOnCategory: !canCreateTopicOnCategory,
-          canCreateTopic: canCreateTopic,
+          canCreateTopic,
         });
 
         // call to super needs to be after override, because at the end it unsets the topic property we're using

@@ -1,23 +1,23 @@
 <div>
-    <div class="view-toggle align-left">
-        {{d-button action="enableGridView" icon="th"}}
-        {{d-button action="enableListView" icon="list"}}
-    </div>
+  <div class="view-toggle align-left">
+    {{d-button action="enableGridView" icon="th"}}
+    {{d-button action="enableListView" icon="list"}}
+  </div>
 
-    <div class="align-right">
-      {{input
-        type="text"
-        placeholder="Search tables"
-        name="gallery-filter"
-        value=filterInput
-        enter=(action "filterGallery")
-      }}
-      {{d-button
-        action=(action "filterGallery" filterInput)
-        value=filterInput
-        icon="search"
-        label=""
-        class="btn-primary"
-      }}
-    </div>
+  <div class="align-right">
+    {{input
+      type="text"
+      placeholder="Search tables"
+      name="gallery-filter"
+      value=filterInput
+      enter=(action "filterGallery")
+    }}
+    {{d-button
+      action=(action "filterGallery" filterInput)
+      value=filterInput
+      icon="search"
+      label=""
+      class="btn-primary"
+    }}
+  </div>
 </div>
