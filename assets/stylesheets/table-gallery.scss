@@ -57,6 +57,10 @@ body.table-gallery .navigation-controls {
   }
 }
 
+div.topic-list-title-popover {
+  display: none;
+}
+
 body.table-gallery .topic-thumbnails-grid {
   .topic-statuses {
     display: none;
@@ -75,10 +79,6 @@ body.table-gallery .topic-thumbnails-grid {
     box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.15);
     background-color: #fff;
     margin-bottom: 30 px;
-
-    .topic-list-title-popover {
-      display: none;
-    }
 
     &:hover .topic-list-title-popover {
       display: block;
@@ -153,10 +153,6 @@ body.table-gallery
 // hide added html when viewing on non table gallery pages
 body:not(.table-gallery) {
   span.excess-tags {
-    display: none;
-  }
-
-  div.topic-list-title-popover {
     display: none;
   }
 }
