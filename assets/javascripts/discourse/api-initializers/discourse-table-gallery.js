@@ -3,16 +3,13 @@ import discourseComputed, { observes } from "discourse-common/utils/decorators";
 import PermissionType from "discourse/models/permission-type";
 import { scheduleOnce } from "@ember/runloop";
 import { queryParams } from "discourse/controllers/discovery-sortable";
+import { galleryCategoryIds } from "../lib/table-gallery";
 
 export default apiInitializer("0.11.1", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
   if (!siteSettings.discourse_table_gallery_enabled) {
     return;
   }
-
-  const galleryCategoryIds = siteSettings.table_gallery_categories
-    .split("|")
-    .map((id) => parseInt(id, 10));
 
   const rParams = queryParams;
   const cParams = Object.keys(queryParams);
@@ -22,7 +19,7 @@ export default apiInitializer("0.11.1", (api) => {
   // eslint-disable-next-line no-unused-vars
   const tags_callback = function (topic, params) {
     if (
-      galleryCategoryIds.includes(topic.get("category_id")) &&
+      galleryCategoryIds(siteSettings).includes(topic.get("category_id")) &&
       topic.get("tags").length > 3
     ) {
       const numExcessTags = topic.get("tags").length - 3;
@@ -74,7 +71,7 @@ export default apiInitializer("0.11.1", (api) => {
       // overriding the template rendering so we can change the navigation system
       renderTemplate(controller, model) {
         const categoryId = model.category.id;
-        const isGalleryCategory = galleryCategoryIds.includes(categoryId);
+        const isGalleryCategory = galleryCategoryIds(siteSettings).includes(categoryId);
 
         if (isGalleryCategory) {
           // render new nav system
@@ -162,7 +159,7 @@ export default apiInitializer("0.11.1", (api) => {
       isTopicListRoute,
       listViewState
     ) {
-      if (galleryCategoryIds.includes(viewingCategoryId)) {
+      if (galleryCategoryIds(siteSettings).includes(viewingCategoryId)) {
         // this lets us tell topic-thumbnails to show a list or a grid,
         // based on the property from our controller instead of its own settings
         return listViewState;

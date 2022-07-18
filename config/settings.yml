@@ -7,3 +7,7 @@ plugins:
     type: list
     list_type: category
     client: true
+  table_gallery_hidden_tags:
+    default: ""
+    type: list
+    client: true
