@@ -9,7 +9,7 @@ export default registerUnbound("discourse-tags", function (topic, params) {
   let siteSettings = helperContext().siteSettings;
 
   if (galleryCategoryIds(siteSettings).includes(topic.get("category_id"))) {
-    params.siteSettings = siteSettings;
+    params = Object.assign({}, params, { siteSettings });
     tagList = renderTableGalleryTags(topic, params);
   } else {
     tagList = renderTags(topic, params);

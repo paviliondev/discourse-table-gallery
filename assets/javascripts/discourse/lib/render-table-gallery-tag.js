@@ -27,7 +27,7 @@ export function defaultRenderTag(tag, params) {
         : User.current().username;
       path = `/u/${username}/messages/tags/${tag}`;
     } else {
-      path = `/tag/${tag}`;
+      path = `${categoryPath}/?search=${tag}`;
     }
   }
   const href = path ? ` href='${getURL(path)}' ` : "";
