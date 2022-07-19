@@ -32,8 +32,7 @@ export default function (topic, params) {
   let category = topic.category;
   let categoryPath = topic.category.get('path');
   let siteSettings = params.siteSettings;
-  let hiddenTags = siteSettings.table_gallery_hidden_tags;
-  console.log(tags);
+  let hiddenTags = siteSettings.table_gallery_hidden_tags.split("|");
 
   if (params) {
     if (params.mode === "list") {
@@ -46,6 +45,14 @@ export default function (topic, params) {
       tagName = params.tagName;
     }
   }
+
+  tags = tags.sort( function (a, b) {
+    if (hiddenTags.includes(a)) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
 
   let customHtml = null;
   if (callbacks) {
