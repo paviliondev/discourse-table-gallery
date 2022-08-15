@@ -8,11 +8,11 @@ export default registerUnbound("discourse-tag", function (name, params) {
   let tag;
   let siteSettings = helperContext().siteSettings;
 
-  if (galleryCategoryIds(siteSettings).includes(topic.get("category_id"))) {
+  if (false) {
     params.siteSettings = siteSettings;
-    tag = renderTableGalleryTag(topic, params);
+    tag = renderTableGalleryTag(name, params);
   } else {
-    tag = renderTag(topic, params);
+    tag = renderTag(name, params);
   }
 
   return htmlSafe(tag);

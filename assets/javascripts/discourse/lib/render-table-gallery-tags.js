@@ -54,28 +54,17 @@ export default function (topic, params) {
     }
   });
 
-  let customHtml = null;
-  if (callbacks) {
-    callbacks.forEach((c) => {
-      const html = c(topic, params);
-      if (html) {
-        if (customHtml) {
-          customHtml += html;
-        } else {
-          customHtml = html;
-        }
-      }
-    });
-  }
+  let tagsToRender = tags.slice(0,3);
 
-  if (customHtml || (tags && tags.length > 0)) {
+  if (tagsToRender && tagsToRender.length > 0) {
     buffer = "<div class='discourse-tags'>";
-    if (tags) {
-      for (let i = 0; i < tags.length; i++) {
+
+    if (tagsToRender) {
+      for (let i = 0; i < tagsToRender.length; i++) {
         buffer +=
-          renderTableGalleryTag(tags[i], {
+          renderTableGalleryTag(tagsToRender[i], {
             description:
-              topic.tags_descriptions && topic.tags_descriptions[tags[i]],
+              topic.tags_descriptions && topic.tags_descriptions[tagsToRender[i]],
             isPrivateMessage,
             tagsForUser,
             tagName,
@@ -84,11 +73,13 @@ export default function (topic, params) {
       }
     }
 
-    if (customHtml) {
-      buffer += customHtml;
+    if (tags.length > 3) {
+      const numExcessTags = tags.length - 3;
+      buffer += "<span class='discourse-tag excess-tags'>(+" + numExcessTags + ")</span>";
     }
 
     buffer += "</div>";
   }
+
   return buffer;
 }

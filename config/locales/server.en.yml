@@ -2,3 +2,4 @@ en:
   site_settings:
     discourse_table_gallery_enabled: "Enable table gallery plugin"
     table_gallery_categories: "Add all categories which should be shown as a table gallery"
+    table_gallery_hidden_tags: "Hide tags on the table gallery list"

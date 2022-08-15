@@ -16,23 +16,6 @@ export default apiInitializer("0.11.1", (api) => {
   rParams["tags"] = { refreshModel: true, replace: true };
   cParams.push("tags");
 
-  // eslint-disable-next-line no-unused-vars
-  const tags_callback = function (topic, params) {
-    if (
-      galleryCategoryIds(siteSettings).includes(topic.get("category_id")) &&
-      topic.get("tags").length > 3
-    ) {
-      const numExcessTags = topic.get("tags").length - 3;
-      return (
-        "<span class='discourse-tag excess-tags'>(+" +
-        numExcessTags +
-        ")</span>"
-      );
-    }
-  };
-
-  api.addTagsHtmlCallback(tags_callback, { priority: 100 });
-
   ["discovery.category"].forEach((name) => {
     api.modifyClass(`route:${name}`, {
       pluginId: "discourse-table-gallery",
